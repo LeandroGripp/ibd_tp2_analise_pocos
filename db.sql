@@ -10,10 +10,10 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS Locais (id_local INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, estado TEXT (2), bacia TEXT (20), campo TEXT (20));
 
 -- Table: Pocos
-CREATE TABLE IF NOT EXISTS Pocos (nome_poco_anp TEXT (15) UNIQUE NOT NULL, id_local INTEGER, FOREIGN KEY (id_local) REFERENCES Locais (id_local));
+CREATE TABLE IF NOT EXISTS Pocos (id_poco INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_poco_anp TEXT (15) UNIQUE NOT NULL, id_local INTEGER, FOREIGN KEY (id_local) REFERENCES Locais (id_local));
 
 -- Table: Contratos
-CREATE TABLE IF NOT EXISTS Contratos (numero_contrato TEXT(25) PRIMARY KEY UNIQUE NOT NULL, operador TEXT (20), nome_poco_operador TEXT (30), nome_poco_anp TEXT(15), FOREIGN KEY (nome_poco_anp) REFERENCES Pocos (nome_poco_anp));
+CREATE TABLE IF NOT EXISTS Contratos (numero_contrato TEXT(25) PRIMARY KEY UNIQUE NOT NULL, operador TEXT (20), nome_poco_operador TEXT (30), id_poco INTEGER, FOREIGN KEY (id_poco) REFERENCES Pocos (id_poco));
 
 -- Table: Instalacoes
 CREATE TABLE IF NOT EXISTS Instalacoes (id_instalacao INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_instalacao TEXT (25) UNIQUE, tipo_instalacao TEXT (2));
