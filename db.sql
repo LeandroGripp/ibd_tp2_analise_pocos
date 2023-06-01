@@ -9,11 +9,20 @@ BEGIN TRANSACTION;
 -- Table: Campos
 CREATE TABLE IF NOT EXISTS Campos (id_campo INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_campo TEXT (20) UNIQUE NOT NULL, estado TEXT (2), bacia TEXT (20));
 
--- Table: Contratos
-CREATE TABLE IF NOT EXISTS Contratos (numero_contrato TEXT(25) PRIMARY KEY UNIQUE NOT NULL, operador TEXT (20), id_campo INTEGER NOT NULL, FOREIGN KEY (id_campo) REFERENCES Campos (id_campo));
+-- Table: Operador
+CREATE TABLE IF NOT EXISTS Operador (id_operador INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_operador TEXT (20));
+
+-- Table: Concessao
+CREATE TABLE IF NOT EXISTS Concessao (
+    numero_contrato INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, 
+    id_operador INTEGER, 
+    id_campo INTEGER, 
+    FOREIGN KEY (id_operador) REFERENCES Operador (id_operador),
+    FOREIGN KEY (id_campo) REFERENCES Campos (id_campo)
+);
 
 -- Table: Pocos
-CREATE TABLE IF NOT EXISTS Pocos (id_poco INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_poco_anp TEXT (15) UNIQUE NOT NULL, nome_poco_operadora TEXT (15), contrato TEXT(25), FOREIGN KEY (contrato) REFERENCES Contratos (numero_contrato));
+CREATE TABLE IF NOT EXISTS Pocos (id_poco INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_poco_anp TEXT (15) UNIQUE NOT NULL, nome_poco_operador TEXT (15), id_operador INTEGER, FOREIGN KEY (id_operador) REFERENCES Operador (id_operador));
 
 -- Table: Instalacoes
 CREATE TABLE IF NOT EXISTS Instalacoes (id_instalacao INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_instalacao TEXT (25) UNIQUE, tipo_instalacao TEXT (2));
