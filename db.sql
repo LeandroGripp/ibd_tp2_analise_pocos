@@ -67,7 +67,8 @@ CREATE TABLE IF NOT EXISTS Producoes (
     nitrogenio REAL,
     gas_carbonico REAL,
     densidade_glp_gas REAL,
-    densidade_glp_liquido REAL
+    densidade_glp_liquido REAL,
+    pcs_gp REAL
 );
 
 -- Table: Extracoes
