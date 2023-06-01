@@ -6,14 +6,14 @@
 PRAGMA foreign_keys = ON;
 BEGIN TRANSACTION;
 
--- Table: Locais
-CREATE TABLE IF NOT EXISTS Locais (id_local INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, estado TEXT (2), bacia TEXT (20), campo TEXT (20));
-
--- Table: Pocos
-CREATE TABLE IF NOT EXISTS Pocos (id_poco INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_poco_anp TEXT (15) UNIQUE NOT NULL, id_local INTEGER, FOREIGN KEY (id_local) REFERENCES Locais (id_local));
+-- Table: Campos
+CREATE TABLE IF NOT EXISTS Campos (id_campo INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_campo TEXT (20) UNIQUE NOT NULL, estado TEXT (2), bacia TEXT (20));
 
 -- Table: Contratos
-CREATE TABLE IF NOT EXISTS Contratos (numero_contrato TEXT(25) PRIMARY KEY UNIQUE NOT NULL, operador TEXT (20), nome_poco_operador TEXT (30), id_poco INTEGER, FOREIGN KEY (id_poco) REFERENCES Pocos (id_poco));
+CREATE TABLE IF NOT EXISTS Contratos (numero_contrato TEXT(25) PRIMARY KEY UNIQUE NOT NULL, operador TEXT (20), id_campo INTEGER NOT NULL, FOREIGN KEY (id_campo) REFERENCES Campos (id_campo));
+
+-- Table: Pocos
+CREATE TABLE IF NOT EXISTS Pocos (id_poco INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_poco_anp TEXT (15) UNIQUE NOT NULL, nome_poco_operadora TEXT (15), contrato TEXT(25), FOREIGN KEY (contrato) REFERENCES Contratos (numero_contrato));
 
 -- Table: Instalacoes
 CREATE TABLE IF NOT EXISTS Instalacoes (id_instalacao INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, nome_instalacao TEXT (25) UNIQUE, tipo_instalacao TEXT (2));
@@ -60,8 +60,18 @@ CREATE TABLE IF NOT EXISTS Producoes (
     densidade_glp_liquido REAL
 );
 
--- Table: Destinacoes
-CREATE TABLE IF NOT EXISTS Destinacoes (id_destinacao INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, id_producao INTEGER, id_instalacao INTEGER, numero_contrato TEXT(25), FOREIGN KEY (id_producao) REFERENCES Producoes (id_producao), FOREIGN KEY (id_instalacao) REFERENCES Instalacoes (id_instalacao), FOREIGN KEY (numero_contrato) REFERENCES Contratos (numero_contrato));
+-- Table: Extracoes
+CREATE TABLE IF NOT EXISTS Extracoes (
+    id_extracao INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, 
+    id_producao INTEGER, 
+    instalacao_destino INTEGER, 
+    id_poco INTEGER, 
+    id_campo INTEGER,
+    FOREIGN KEY (id_producao) REFERENCES Producoes (id_producao), 
+    FOREIGN KEY (instalacao_destino) REFERENCES Instalacoes (id_instalacao), 
+    FOREIGN KEY (id_poco) REFERENCES Pocos (id_poco),
+    FOREIGN KEY (id_campo) REFERENCES Campos (id_campo)
+);
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
