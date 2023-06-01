@@ -44,12 +44,12 @@ CREATE TABLE IF NOT EXISTS Producoes (
     periodo_da_carga TEXT (7),
     corrente TEXT (30),
     grau_api REAL,
-    fp_lc TEXT (10),
-    fp_lv REAL,
-    fp_mc TEXT (10),
-    fp_mv REAL,
-    fp_pc TEXT (10),
-    fp_pv REAL,
+    fp_lc TEXT (20),
+    fp_lv TEXT (20),
+    fp_mc TEXT (20),
+    fp_mv TEXT (20),
+    fp_pc TEXT (20),
+    fp_pv TEXT (20),
     metano REAL,
     etano REAL,
     propano REAL,
@@ -68,17 +68,10 @@ CREATE TABLE IF NOT EXISTS Producoes (
     gas_carbonico REAL,
     densidade_glp_gas REAL,
     densidade_glp_liquido REAL,
-    pcs_gp REAL
-);
-
--- Table: Extracoes
-CREATE TABLE IF NOT EXISTS Extracoes (
-    id_extracao INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, 
-    id_producao INTEGER, 
+    pcs_gp REAL,
     instalacao_destino INTEGER, 
     id_poco INTEGER, 
     id_campo INTEGER,
-    FOREIGN KEY (id_producao) REFERENCES Producoes (id_producao), 
     FOREIGN KEY (instalacao_destino) REFERENCES Instalacoes (id_instalacao), 
     FOREIGN KEY (id_poco) REFERENCES Pocos (id_poco),
     FOREIGN KEY (id_campo) REFERENCES Campos (id_campo)
